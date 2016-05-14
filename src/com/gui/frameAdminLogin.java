@@ -6,6 +6,10 @@
 
 package com.gui;
 
+import com.backEnd.InicioSesion;
+import com.backEnd.Usuario;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author erick
@@ -15,9 +19,12 @@ public class frameAdminLogin extends javax.swing.JFrame {
     /**
      * Creates new form frameAdminLogin
      */
-    public frameAdminLogin() {
+    InicioSesion login;
+    public frameAdminLogin(InicioSesion login) {
+        this.login=login;
         initComponents();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,7 +54,6 @@ public class frameAdminLogin extends javax.swing.JFrame {
         jTField_Pass.setBackground(new java.awt.Color(71, 71, 71));
         jTField_Pass.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
         jTField_Pass.setForeground(new java.awt.Color(254, 254, 254));
-        jTField_Pass.setText("jPasswordField1");
         jTField_Pass.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jTField_Usuario.setBackground(new java.awt.Color(71, 71, 71));
@@ -124,8 +130,16 @@ public class frameAdminLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // despues de validar que admin sea correcto
-        new frameRegistro().setVisible(true);
-        this.dispose();
+       
+        
+        if(login.buscarUsuario(this.jTField_Usuario.getText(),this.jTField_Pass.getText())){
+            new frameRegistro(login).setVisible(true);
+            this.dispose();
+        }else
+            JOptionPane.showMessageDialog(rootPane, "No existen coincidencias para Aministrador");
+       
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -158,7 +172,7 @@ public class frameAdminLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frameAdminLogin().setVisible(true);
+                new frameAdminLogin(null).setVisible(true);
             }
         });
     }

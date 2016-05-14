@@ -6,9 +6,11 @@
 
 package com.gui;
 
+import com.backEnd.InicioSesion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,8 +21,10 @@ public class frameLogin extends javax.swing.JFrame {
     /**
      * Creates new form frameLogin
      */
+    InicioSesion usuarios;
     public frameLogin() {
         initComponents();
+        usuarios = new InicioSesion();
         Toolkit imageToolkit = java.awt.Toolkit.getDefaultToolkit();
         Image iconImage = imageToolkit.createImage(getClass().getResource("/com/Imagenes/admin.png"));
         iconImage = iconImage.getScaledInstance(40,40,iconImage.SCALE_SMOOTH);
@@ -57,7 +61,6 @@ public class frameLogin extends javax.swing.JFrame {
         jTField_Pass.setBackground(new java.awt.Color(71, 71, 71));
         jTField_Pass.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
         jTField_Pass.setForeground(new java.awt.Color(254, 254, 254));
-        jTField_Pass.setText("jPasswordField1");
         jTField_Pass.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jTField_Usuario.setBackground(new java.awt.Color(71, 71, 71));
@@ -142,13 +145,22 @@ public class frameLogin extends javax.swing.JFrame {
 
     private void jLabel_adminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_adminMouseClicked
         // TODO add your handling code here:
-        new frameAdminLogin().setVisible(true);
+        new frameAdminLogin(usuarios).setVisible(true);
     }//GEN-LAST:event_jLabel_adminMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new Principal().show();
-        this.dispose();
+        if(this.jTField_Usuario.getText().isEmpty() || this.jTField_Pass.getText().isEmpty())
+            JOptionPane.showMessageDialog(rootPane, "Campos Vacios");
+        else{
+            if (usuarios.buscarUsuario(this.jTField_Usuario.getText(), this.jTField_Pass.getText())) {
+                new Principal().show();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Usuario no registrado");
+            }
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -6,9 +6,12 @@
 
 package com.gui;
 
+import com.backEnd.InicioSesion;
+import com.backEnd.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,8 +22,11 @@ public class frameRegistro extends javax.swing.JFrame {
     /**
      * Creates new form frameRegistro
      */
-    public frameRegistro() {
+    InicioSesion login;
+    public frameRegistro(InicioSesion login) {
         initComponents();
+        this.login = login;
+        
         Toolkit imageToolkit = java.awt.Toolkit.getDefaultToolkit();
         Image iconImage = imageToolkit.createImage(getClass().getResource("/com/Imagenes/nuevoUser.png"));
         iconImage = iconImage.getScaledInstance(50,50,iconImage.SCALE_SMOOTH);
@@ -46,6 +52,7 @@ public class frameRegistro extends javax.swing.JFrame {
         jTField_Pass1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel_admin = new javax.swing.JLabel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Usuario");
@@ -59,7 +66,6 @@ public class frameRegistro extends javax.swing.JFrame {
         jTField_Pass.setBackground(new java.awt.Color(71, 71, 71));
         jTField_Pass.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
         jTField_Pass.setForeground(new java.awt.Color(254, 254, 254));
-        jTField_Pass.setText("jPasswordField1");
         jTField_Pass.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jTField_Usuario.setBackground(new java.awt.Color(71, 71, 71));
@@ -86,6 +92,11 @@ public class frameRegistro extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(254, 254, 254));
         jButton1.setText("Registrar");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel_admin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel_admin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -99,24 +110,26 @@ public class frameRegistro extends javax.swing.JFrame {
         jBtnIniciarLayout.setHorizontalGroup(
             jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBtnIniciarLayout.createSequentialGroup()
-                .addGap(0, 403, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jBtnIniciarLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addGroup(jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(jBtnIniciarLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
                         .addGroup(jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jTField_Pass1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
                             .addGroup(jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel1)
                                 .addComponent(jTField_Pass, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
-                                .addComponent(jTField_Usuario))))
-                    .addGroup(jBtnIniciarLayout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jTField_Usuario))
+                            .addGroup(jBtnIniciarLayout.createSequentialGroup()
+                                .addGap(247, 247, 247)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jBtnIniciarLayout.setVerticalGroup(
             jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,26 +141,35 @@ public class frameRegistro extends javax.swing.JFrame {
                 .addComponent(jTField_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTField_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTField_Pass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGroup(jBtnIniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jBtnIniciarLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTField_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTField_Pass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(jBtnIniciarLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBtnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jBtnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBtnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jBtnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,6 +178,25 @@ public class frameRegistro extends javax.swing.JFrame {
     private void jLabel_adminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_adminMouseClicked
         
     }//GEN-LAST:event_jLabel_adminMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         //registrar nuevos usuarios como limite dos.
+        switch(login.registraUsuario(this.jTField_Usuario.getText(), this.jTField_Pass.getText(), this.jTField_Pass1.getText())){
+            case 1:
+                JOptionPane.showMessageDialog(rootPane,"Registro Exitoso");
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(rootPane,"Contraseñas no coinciden");
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(rootPane,"Limite de registro completo");
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(rootPane,"Lista vacia");
+                break;
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,7 +228,7 @@ public class frameRegistro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frameRegistro().setVisible(true);
+                new frameRegistro(null).setVisible(true);
             }
         });
     }
@@ -202,5 +243,6 @@ public class frameRegistro extends javax.swing.JFrame {
     private javax.swing.JPasswordField jTField_Pass;
     private javax.swing.JPasswordField jTField_Pass1;
     private javax.swing.JTextField jTField_Usuario;
+    private javax.swing.JTabbedPane jTabbedPane2;
     // End of variables declaration//GEN-END:variables
 }
