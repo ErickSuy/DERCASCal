@@ -50,5 +50,9 @@ public class Usuario implements Serializable{
     }
     public Usuario(){}
     
-            
+    @Override
+    public String toString() {
+        return "Usuario: " + this.Nombre;
+    }
+        
 }

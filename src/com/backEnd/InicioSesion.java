@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -50,24 +52,76 @@ public class InicioSesion {
         return false;
     }
     
+    
+    public boolean buscarUsuario(String Nombre){
+        if(lista!=null){
+           for ( Usuario usr : lista ) {
+               if(usr.getNombre().equals(Nombre))
+                   return true;
+           } 
+        }
+        return false;
+    }
+    
+    
+    
+    
+    public void llenarLista(JList listavisual){
+        
+
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.clear();
+        if(lista!=null){
+           for ( Usuario usr : lista ) {
+               listModel.addElement(usr);
+           }
+        }
+        
+        listavisual.setModel(listModel);
+    }
+    
+    public void eliminarUsrLista(JList listavisual, Object obj){
+        DefaultListModel listModel = (DefaultListModel)listavisual.getModel();
+        listModel.removeElement(obj);
+        lista.remove(obj);
+        llenarLista(listavisual);
+        this.guardarLista();
+    }
+    
     public int registraUsuario(String nombre, String pass1, String pass2){
         /*
         * 1 - si se registro bien
         * 2 - si las contraseñas no coinciden
         * 3 - si el limite de registro esta completo
         * 4 - lista no existe
+        * 5 - ya existe usuario registrado
         */
         if(lista!=null){
             if(lista.size()<=2){
                 if(pass1.equals(pass2)){
-                    lista.add(new Usuario(2,nombre,pass1));
-                    this.guardarLista();
+                    if(!buscarUsuario(nombre)){
+                        lista.add(new Usuario(2,nombre,pass1));
+                        this.guardarLista();
+                        return 1;
+                    }
+                    return 5;
+                    
                 }
                 return 2;
             }
             return 3;
         }
         return 4;
+    }
+    
+    public Usuario getAdminitrador(){
+        if(lista!=null){
+           for ( Usuario usr : lista ) {
+               if(usr.getRol()==1)
+                   return usr;
+           } 
+        }
+        return null;
     }
     
     public boolean guardarLista(){
